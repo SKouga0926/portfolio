@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ポートフォリオ | 佐藤 光河</title>
+  <style>
+    /* リセットCSS */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 変数定義 */
+    :root {
+      --color-primary: #3b82f6;
+      --color-primary-dark: #2563eb;
+      --color-secondary: #4f46e5;
+      --color-gray-50: #f9fafb;
+      --color-gray-100: #f3f4f6;
+      --color-gray-200: #e5e7eb;
+      --color-gray-300: #d1d5db;
+      --color-gray-400: #9ca3af;
+      --color-gray-500: #6b7280;
+      --color-gray-600: #4b5563;
+      --color-gray-700: #374151;
+      --color-gray-800: #1f2937;
+      --color-gray-900: #111827;
+      --color-white: #ffffff;
+      --color-yellow-500: #eab308;
+      --color-green-500: #22c55e;
+      --color-blue-400: #60a5fa;
+      --color-blue-500: #3b82f6;
+      --color-indigo-500: #6366f1;
+      --color-indigo-600: #4f46e5;
+      --border-radius-sm: 0.25rem;
+      --border-radius-md: 0.375rem;
+      --border-radius-lg: 0.5rem;
+      --border-radius-full: 9999px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* ダークモード変数 */
+    .dark {
+      --color-bg-primary: var(--color-gray-900);
+      --color-bg-secondary: var(--color-gray-800);
+      --color-text-primary: var(--color-gray-100);
+      --color-text-secondary: var(--color-gray-300);
+      --color-border: var(--color-gray-700);
+      --color-card-bg: var(--color-gray-800);
+    }
+
+    /* ライトモード変数 */
+    :root:not(.dark) {
+      --color-bg-primary: var(--color-gray-50);
+      --color-bg-secondary: var(--color-gray-100);
+      --color-text-primary: var(--color-gray-900);
+      --color-text-secondary: var(--color-gray-600);
+      --color-border: var(--color-gray-200);
+      --color-card-bg: var(--color-white);
+    }
+
+    /* 基本スタイル */
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(to bottom, var(--color-bg-primary), var(--color-bg-secondary));
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 64rem;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    /* カードスタイル */
+    .card {
+      background-color: var(--color-card-bg);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+
+    /* プロフィールスタイル */
+    .profile-header {
+        position: relative;
+        height: 10rem;
+        background: url("./ai_pillow.png") no-repeat center center / cover;
+    }
+
+    .profile-image-container {
+      position: absolute;
+      bottom: -4rem;
+      left: 1.5rem;
+    }
+
+    .profile-image {
+      width: 8rem;
+      height: 8rem;
+      border-radius: var(--border-radius-full);
+      border: 4px solid var(--color-card-bg);
+      object-fit: cover;
+    }
+
+    .profile-content {
+      padding-top: 5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .profile-name {
+      font-size: 1.875rem;
+      font-weight: 700;
+    }
+
+    .profile-title {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    .profile-bio {
+      margin-top: 1rem;
+      color: var(--color-text-primary);
+    }
+
+    /* グリッドレイアウト */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* タイムラインスタイル */
+    .timeline-item {
+      border-left: 2px solid var(--color-blue-500);
+      padding-left: 1rem;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-item.education {
+      border-left-color: var(--color-green-500);
+    }
+
+    .timeline-item.achievement {
+      border-left-color: var(--color-yellow-500);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+    }
+
+    .timeline-date {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .timeline-subtitle {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* スキルスタイル */
+    .skill-item {
+      margin-bottom: 1rem;
+    }
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.375rem;
+    }
+
+    .skill-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .skill-level {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .skill-bar {
+      height: 0.5rem;
+      background-color: var(--color-gray-200);
+      border-radius: var(--border-radius-full);
+      overflow: hidden;
+    }
+
+    .skill-progress {
+      height: 100%;
+      background: linear-gradient(to right, var(--color-blue-500), var(--color-indigo-500));
+      border-radius: var(--border-radius-full);
+    }
+
+    /* 趣味スタイル */
+    .hobby-description {
+      margin-bottom: 1rem;
+      color: var(--color-text-primary);
+    }
+
+    .hobby-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .hobby-tag {
+      background-color: var(--color-gray-200);
+      color: var(--color-gray-700);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--border-radius-full);
+      font-size: 0.875rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark .hobby-tag {
+      background-color: var(--color-gray-700);
+      color: var(--color-gray-200);
+    }
+
+    /* コンタクトスタイル */
+    .contact-content {
+      text-align: center;
+    }
+
+    .contact-text {
+      margin-bottom: 1rem;
+      color: var(--color-text-primary);
+    }
+
+    .contact-email {
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--border-radius-full);
+      background-color: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      transition: transform 0.2s, background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .social-link:hover {
+      transform: scale(1.1);
+    }
+
+    .social-link:active {
+      transform: scale(0.95);
+    }
+
+    /* テーマトグルボタン */
+    .theme-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 10;
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--border-radius-full);
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.95);
+    }
+
+    .theme-toggle .sun,
+    .theme-toggle .moon {
+      position: absolute;
+      transition: opacity 0.3s, transform 0.5s;
+    }
+
+    .theme-toggle .sun {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+
+    .theme-toggle .moon {
+      opacity: 0;
+      transform: rotate(90deg) scale(0);
+    }
+
+    .dark .theme-toggle .sun {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0);
+    }
+
+    .dark .theme-toggle .moon {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+
+    /* スプラッシュスクリーン - 新しいアニメーション */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom right, var(--color-gray-900), black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
+
+    .splash-content {
+      text-align: center;
+      position: relative;
+    }
+
+    .splash-question {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: white;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: float-up 1.5s ease-out forwards;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes float-up {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .fade-in {
+      animation: fade-in 0.5s ease-in-out forwards;
+    }
+
+    .slide-up {
+      animation: slide-up 0.5s ease-in-out forwards;
+    }
+
+    /* アニメーション */
+    @keyframes fade-in {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slide-up {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* アニメーション遅延 */
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+    .delay-7 { animation-delay: 0.7s; }
+    .delay-8 { animation-delay: 0.8s; }
+  </style>
+</head>
+<body>
+  <!-- スプラッシュスクリーン - 新しいアニメーション -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-content">
+      <h1 class="splash-question">佐藤光河とは？</h1>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div id="main-content" class="hidden">
+    <div class="container">
+      <!-- プロフィール -->
+      <div class="card" id="profile-card">
+        <div class="profile-header">
+          <div class="profile-image-container">
+            <img src="./profile.png" alt="プロフィール画像" class="profile-image">
+          </div>
+        </div>
+        <div class="card-content profile-content">
+          <h1 class="profile-name">佐藤 光河</h1>
+          <h2 class="profile-title">高専・情報工学科生</h2>
+          <div class="profile-bio">
+            <p>
+              DCON2024・ロボ研制御班・競プロ初心者
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2カラムレイアウト（経歴とスキル） -->
+      <div class="grid">
+        <!-- 経歴・学歴 -->
+        <div class="card" id="education-card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+              経歴・学歴
+            </h3>
+          </div>
+          <div class="card-content">
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-title">大分工業高等専門学校</h4>
+                <span class="timeline-date">2025年 - 現在</span>
+              </div>
+              <p class="timeline-subtitle">情報工学科 5年</p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-title">大分工業高等専門学校</h4>
+                <span class="timeline-date">2021年</span>
+              </div>
+              <p class="timeline-subtitle">情報工学科 入学</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 趣味 -->
+        <div class="card" id="hobbies-card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              趣味
+            </h3>
+          </div>
+          <div class="card-content">
+            <p class="hobby-description">
+              最近は，ダイエットに励んでいますが，ダイエットする度に食べすぎてしまいます．
+            </p>
+            <div class="hobby-tags">
+              <span class="hobby-tag">寝ること</span>
+              <span class="hobby-tag">食べること</span>
+              <span class="hobby-tag">筋トレ</span>
+              <span class="hobby-tag">プログラミング</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2カラムレイアウト（趣味と実績） -->
+      <div class="grid">
+        
+        <!-- スキルセット -->
+        <div class="card" id="skills-card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              スキルセット
+            </h3>
+          </div>
+          <div class="card-content">
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">HTML/CSS</span>
+                <span class="skill-level">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">JavaScript</span>
+                <span class="skill-level">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 80%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Python</span>
+                <span class="skill-level">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">C/C++/C#</span>
+                <span class="skill-level">95%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 95%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">React/Node.js</span>
+                <span class="skill-level">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 75%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">TensorFlow/Keras</span>
+                <span class="skill-level">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 80%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Linux・Ubuntu</span>
+                <span class="skill-level">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%"></div>
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Git</span>
+                <span class="skill-level">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 実績・受賞歴 -->
+        <div class="card" id="achievements-card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+              実績・受賞歴
+            </h3>
+          </div>
+          <div class="card-content">
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">日本人間工学会第66回大会・AI枕を展示</h4>
+                <span class="timeline-date">2025年</span>
+              </div>
+            </div>
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">日本人間工学会九州・沖縄支部会第45回大会優秀賞</h4>
+                <span class="timeline-date">2024年</span>
+              </div>
+            </div>
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">International Workshop Seating/Sitting Comfort参加と発表</h4>
+                <span class="timeline-date">2024年</span>
+              </div>
+            </div>
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">第5回全国高等専門学校ディープラーニングコンテスト総合3位</h4>
+                <span class="timeline-date">2024年</span>
+              </div>
+            </div>
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">全国高等専門学校ロボットコンテスト2024全国大会出場</h4>
+                <span class="timeline-date">2024年</span>
+              </div>
+            </div>
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">全国高等専門学校ロボットコンテスト2023地区大会準決勝出場</h4>
+                <span class="timeline-date">2023年</span>
+              </div>
+            </div>
+
+            <div class="timeline-item achievement">
+              <div class="timeline-header">
+                <h4 class="timeline-title">全国高等専門学校ロボットコンテスト2022全国大会準優勝</h4>
+                <span class="timeline-date">2022年</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- コンタクト -->
+      <div class="card" id="contact-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            コンタクト
+          </h3>
+        </div>
+        <div class="card-content contact-content">
+          <p class="contact-text">
+            お問い合わせは，以下のSNSからご連絡ください．
+          </p>
+          
+          <div class="social-links">
+            <a href="https://github.com/SKouga0926/SKouga0926" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+            <a href="https://x.com/sugarkouga926" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- テーマ切替ボタン -->
+  <button id="theme-toggle" class="theme-toggle">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </svg>
+  </button>
+
+  <script>
+    // ダークモード切替
+    const themeToggle = document.getElementById('theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // ローカルストレージからテーマ設定を取得、なければシステム設定に従う
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+      document.documentElement.classList.add('dark');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // スプラッシュスクリーンアニメーション
+    const splashScreen = document.getElementById('splash-screen');
+    const mainContent = document.getElementById('main-content');
+
+    // スプラッシュスクリーンを表示して、一定時間後にメインコンテンツを表示
+    setTimeout(() => {
+      splashScreen.style.opacity = '0';
+      setTimeout(() => {
+        splashScreen.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        
+        // メインコンテンツのアニメーション
+        const cards = [
+          document.getElementById('profile-card'),
+          document.getElementById('education-card'),
+          document.getElementById('skills-card'),
+          document.getElementById('hobbies-card'),
+          document.getElementById('achievements-card'),
+          document.getElementById('contact-card')
+        ];
+        
+        cards.forEach((card, index) => {
+          card.classList.add('slide-up');
+          card.style.opacity = '0';
+          card.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // テーマトグルボタンのアニメーション
+        setTimeout(() => {
+          themeToggle.classList.add('fade-in');
+        }, cards.length * 200 + 200);
+      }, 500);
+    }, 3000); // 3秒後にスプラッシュスクリーンを非表示
+  </script>
+</body>
+</html>
