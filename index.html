@@ -355,14 +355,14 @@
       transform: rotate(0) scale(1);
     }
 
-    /* スプラッシュスクリーン - 新しいアニメーション */
+    /* スプラッシュスクリーン - MP4アニメーション用 */
     .splash-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom right, var(--color-gray-900), black);
+      background-color: black;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -370,30 +370,10 @@
       transition: opacity 0.5s;
     }
 
-    .splash-content {
-      text-align: center;
-      position: relative;
-    }
-
-    .splash-question {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: white;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: float-up 1.5s ease-out forwards;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    @keyframes float-up {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .splash-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .hidden {
@@ -431,11 +411,13 @@
   </style>
 </head>
 <body>
-  <!-- スプラッシュスクリーン - 新しいアニメーション -->
+  <!-- スプラッシュスクリーン - MP4アニメーション -->
   <div id="splash-screen" class="splash-screen">
-    <div class="splash-content">
-      <h1 class="splash-question">佐藤光河とは？</h1>
-    </div>
+    <video id="splash-video" class="splash-video" autoplay muted playsinline>
+      <source src="./animation.mp4" type="video/mp4">
+      <!-- 動画が再生できない場合のフォールバックテキスト -->
+      お使いのブラウザは動画の再生に対応していません。
+    </video>
   </div>
 
   <!-- メインコンテンツ -->
@@ -735,9 +717,10 @@
     // スプラッシュスクリーンアニメーション
     const splashScreen = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-content');
+    const splashVideo = document.getElementById('splash-video');
 
-    // スプラッシュスクリーンを表示して、一定時間後にメインコンテンツを表示
-    setTimeout(() => {
+    // 動画の再生終了を検出してメインコンテンツを表示
+    splashVideo.addEventListener('ended', () => {
       splashScreen.style.opacity = '0';
       setTimeout(() => {
         splashScreen.classList.add('hidden');
@@ -764,7 +747,39 @@
           themeToggle.classList.add('fade-in');
         }, cards.length * 200 + 200);
       }, 500);
-    }, 3000); // 3秒後にスプラッシュスクリーンを非表示
+    });
+
+    // 動画が再生できない場合や、再生終了イベントが発火しない場合のフォールバック
+    setTimeout(() => {
+      if (!mainContent.classList.contains('hidden')) return;
+      
+      splashScreen.style.opacity = '0';
+      setTimeout(() => {
+        splashScreen.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        
+        // メインコンテンツのアニメーション
+        const cards = [
+          document.getElementById('profile-card'),
+          document.getElementById('education-card'),
+          document.getElementById('skills-card'),
+          document.getElementById('hobbies-card'),
+          document.getElementById('achievements-card'),
+          document.getElementById('contact-card')
+        ];
+        
+        cards.forEach((card, index) => {
+          card.classList.add('slide-up');
+          card.style.opacity = '0';
+          card.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // テーマトグルボタンのアニメーション
+        setTimeout(() => {
+          themeToggle.classList.add('fade-in');
+        }, cards.length * 200 + 200);
+      }, 500);
+    }, 10000); // 10秒後にフォールバック処理を実行
   </script>
 </body>
 </html>
