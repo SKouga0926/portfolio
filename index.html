@@ -181,7 +181,18 @@
 
     .timeline-header {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+    }
+
+    .timeline-header .timeline-title {
+      flex: 1;             /* タイトルが残り幅を全部占有 */
+      margin-right: 1rem;  /* タイトルと日付の間隔 */
+    }
+
+    .timeline-header .timeline-date {
+      flex: 0 0 auto;      /* 必要幅だけ確保 */
+      white-space: nowrap; /* 改行しない */
+      text-align: right;   /* 右寄せ */
     }
 
     .timeline-title {
